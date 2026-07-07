@@ -3,7 +3,7 @@ resource "aws_eip" "app_eip" {
   instance = aws_instance.app.id
 
   tags = {
-    Name = "app-eip"
+    Name = "cicd-challenge-ec2-eip"
     Path = "path1"
   }
 }

@@ -48,7 +48,7 @@ resource "aws_route_table_association" "public_assoc" {
 }
 
 resource "aws_security_group" "web_sg" {
-  name        = "web-sg"
+  name        = "cicd-challenge-web-sg"
   description = "Allow HTTP on 8080 and all outbound traffic"
   vpc_id      = aws_vpc.main.id
 
