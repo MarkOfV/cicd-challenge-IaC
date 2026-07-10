@@ -8,7 +8,7 @@ terraform {
     }
   }
   backend "s3" {
-    bucket       = "cicd-challenge-state-vladan-m"
+    bucket       = "cicd-challenge-state"
     key          = "path1/terraform.tfstate"
     region       = "eu-west-1"
     use_lockfile = true

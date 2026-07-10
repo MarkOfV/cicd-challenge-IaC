@@ -1,4 +1,4 @@
-resource "aws_codebuild_project" "cicd_challenge" {
+resource "aws_codebuild_project" "codebuild_project" {
   name          = "cicd-challenge-codebuild-project"
   description   = "CodeBuild project for the CI/CD challenge"
   build_timeout = 30
@@ -38,7 +38,7 @@ resource "aws_codebuild_project" "cicd_challenge" {
 
   logs_config {
     cloudwatch_logs {
-      group_name         = aws_cloudwatch_log_group.codebuild.name
+      group_name         = aws_cloudwatch_log_group.codebuild_log_group.name
       status             = "ENABLED"
     }
   }

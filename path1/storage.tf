@@ -1,5 +1,6 @@
 resource "aws_s3_bucket" "artifact_bucket" {
   bucket = "cicd-challenge-artifact-bucket-vladan-m"
+  force_destroy = true
   tags = {
     Path = "path1"
   }
@@ -42,6 +43,19 @@ resource "aws_s3_bucket_lifecycle_configuration" "artifact_bucket_lifecycle" {
     
     noncurrent_version_expiration {
       noncurrent_days = 30
+    }
+  }
+
+  rule {
+    id     = "expire-codepipeline-artifacts"
+    status = "Enabled"
+    
+    filter  {
+      prefix = "cicd-challenge-pipel/" #Need to name it like this, since CodePipeline truncates the prefix to this name when it creates the artifacts in the S3 bucket.
+    }
+    
+    expiration {
+      days = 3
     }
   }
 }
