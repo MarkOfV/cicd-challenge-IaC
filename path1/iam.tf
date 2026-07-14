@@ -243,3 +243,28 @@ resource "aws_iam_role_policy" "codepipeline_codebuild_policy" {
   role   = aws_iam_role.codepipeline_role.id
   policy = data.aws_iam_policy_document.codepipeline_codebuild_policy.json
 }
+
+# SNS iam
+
+data "aws_iam_policy_document" "sns_publish_policy" {
+  statement {
+    effect    = "Allow"
+    actions   = ["sns:Publish"]
+    resources = [aws_sns_topic.pipeline_notifications.arn]
+    principals {
+      type        = "Service"
+      identifiers = ["events.amazonaws.com"]
+    }
+
+    condition {
+      test     = "ArnEquals"
+      variable = "aws:SourceArn"
+      values   = [aws_cloudwatch_event_rule.pipeline_state_change.arn]
+    }
+  }
+}
+
+resource "aws_sns_topic_policy" "sns_publish_role" {
+  arn = aws_sns_topic.pipeline_notifications.arn
+  policy = data.aws_iam_policy_document.sns_publish_policy.json
+}

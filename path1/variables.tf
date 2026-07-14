@@ -9,3 +9,8 @@ variable "github_repo_url" {
   type        = string
   default     = "https://github.com/MarkOfV/cicd-challenge-app.git"
 }
+
+variable "notification_email" {
+  description = "Email address for SNS notifications"
+  type        = string
+}
