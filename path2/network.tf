@@ -1,10 +1,11 @@
+
 module "network" {
   source               = "../modules/network"
-  vpc_cidr             = "10.0.0.0/16"
-  public_subnet_cidrs  = ["10.0.1.0/24"]
+  vpc_cidr             = "10.1.0.0/16"
+  public_subnet_cidrs  = ["10.1.1.0/24", "10.1.2.0/24"]
   name_prefix          = var.name_prefix
   path                 = var.path
-}
+  }
 
 resource "aws_security_group" "web_sg" {
   name        = "${var.name_prefix}-web-sg-${var.path}"

@@ -4,11 +4,6 @@ variable "region" {
   default     = "eu-west-1"
 }
 
-variable "notification_email" {
-  description = "Email address for SNS notifications"
-  type        = string
-}
-
 variable "name_prefix" {
   description = "Prefix for resource names"
   type        = string
@@ -18,5 +13,5 @@ variable "name_prefix" {
 variable "path" {
   description = "Path for resource names"
   type        = string
-  default     = "path1"
+  default     = "path2"
 }

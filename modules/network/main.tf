@@ -1,21 +1,28 @@
+data "aws_availability_zones" "available" {
+  state = "available"
+}
+
 resource "aws_vpc" "main" {
-  cidr_block           = "10.0.0.0/16"
+  cidr_block           = var.vpc_cidr
   enable_dns_support   = true
-  enable_dns_hostnames = true 
+  enable_dns_hostnames = true
+
   tags = {
-    Name = "cicd-challenge-main-vpc"
-    Path = "path1"
+    Name = "${var.name_prefix}-main-vpc"
+    Path = var.path
   }
 }
 
 resource "aws_subnet" "public" {
+  count                   = length(var.public_subnet_cidrs)
   vpc_id                  = aws_vpc.main.id
-  cidr_block              = "10.0.1.0/24"
+  cidr_block              = var.public_subnet_cidrs[count.index]
+  availability_zone       = data.aws_availability_zones.available.names[count.index]
   map_public_ip_on_launch = true
 
   tags = {
-    Name = "cicd-challenge-public-subnet"
-    Path = "path1"
+    Name = "${var.name_prefix}-public-subnet-${count.index + 1}"
+    Path = var.path
   }
 }
 
@@ -23,8 +30,8 @@ resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.main.id
 
   tags = {
-    Name = "cicd-challenge-main-igw"
-    Path = "path1"
+    Name = "${var.name_prefix}-main-igw"
+    Path = var.path
   }
 }
 
@@ -37,12 +44,13 @@ resource "aws_route_table" "public" {
   }
 
   tags = {
-    Name = "cicd-challenge-public-route-table"
-    Path = "path1"
+    Name = "${var.name_prefix}-public-route-table"
+    Path = var.path
   }
 }
 
 resource "aws_route_table_association" "public_assoc" {
-  subnet_id      = aws_subnet.public.id
+  count          = length(var.public_subnet_cidrs)
+  subnet_id      = aws_subnet.public[count.index].id
   route_table_id = aws_route_table.public.id
 }
