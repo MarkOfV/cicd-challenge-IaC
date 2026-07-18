@@ -9,3 +9,7 @@ output "vpc_id" {
 output "public_subnet_ids" {
   value = module.network.public_subnet_ids
 }
+
+output "ecr_repo_url" {
+  value = aws_ecr_repository.container_repo.repository_url
+}
