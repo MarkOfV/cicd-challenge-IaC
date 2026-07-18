@@ -24,8 +24,8 @@ resource "aws_cloudwatch_metric_alarm" "ec2_status_check_failed" {
   }
 
   alarm_description = "This metric monitors EC2 instance status check failures."
-  alarm_actions     = [aws_sns_topic.pipeline_notifications.arn]
-  ok_actions        = [aws_sns_topic.pipeline_notifications.arn]
+  alarm_actions     = [module.notifications.topic_arn]
+  ok_actions        = [module.notifications.topic_arn]
 
   tags = {
     Path = "path1"
