@@ -15,3 +15,9 @@ variable "path" {
   type        = string
   default     = "path2"
 }
+
+variable "task_desired_count" {
+  description = "Number of running tasks"
+  type        = number
+  default     = 1
+}
